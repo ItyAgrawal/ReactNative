@@ -7,6 +7,8 @@ import { View, Platform } from 'react-native';
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import Home from './HomeComponent';
 import { Icon } from 'react-native-elements';
+import Contactus from './ContactusComponent.js';
+import Aboutus from './AboutusComponent.js';
 
    const MenuNavigator = createStackNavigator({
         Menu: { screen: Menu },
@@ -42,6 +44,34 @@ import { Icon } from 'react-native-elements';
 });
    //this is  create just to give that header 
 
+  const ContactusNavigator = createStackNavigator({
+    Contactus: { screen: Contactus }
+  }, {
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+          backgroundColor: "#512DA8"
+      },
+      headerTitleStyle: {
+          color: "#fff"            
+      },
+      headerTintColor: "#fff"  
+    })
+});
+
+  const AboutusNavigator = createStackNavigator({
+    Aboutus: { screen: Aboutus }
+      }, {
+        navigationOptions: ({ navigation }) => ({
+          headerStyle: {
+              backgroundColor: "#512DA8"
+          },
+          headerTitleStyle: {
+              color: "#fff"            
+          },
+          headerTintColor: "#fff"  
+        })
+});
+
 const MainNavigator = createDrawerNavigator({
     Home: 
       { screen: HomeNavigator,
@@ -56,7 +86,27 @@ const MainNavigator = createDrawerNavigator({
           title: 'Menu',
           drawerLabel: 'Menu'
         }, 
-      }
+      },
+    Contactus:
+    {
+      screen: ContactusNavigator,
+      navigationOptions: {
+          title: 'Contactus',
+          drawerLabel: 'Contact Us'
+        }, 
+
+    },
+      Aboutus:
+    {
+      screen: AboutusNavigator,
+      navigationOptions: {
+          title: 'Aboutus',
+          drawerLabel: 'About Us'
+        }, 
+
+    },
+
+
 }, {
   drawerBackgroundColor: '#D1C4E9'
 });
