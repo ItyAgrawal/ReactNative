@@ -10,8 +10,28 @@ import Home from './HomeComponent';
 import { Icon } from 'react-native-elements';
 import Contactus from './ContactusComponent.js';
 import Aboutus from './AboutusComponent.js';
+import { connect } from 'react-redux';
+import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 
 //automatically gets prop navigation
+
+
+const mapStateToProps = state => {
+  return {
+    dishes: state.dishes,
+    comments: state.comments,
+    promotions: state.promotions,
+    leaders: state.leaders
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  fetchDishes: () => dispatch(fetchDishes()),
+  fetchComments: () => dispatch(fetchComments()),
+  fetchPromos: () => dispatch(fetchPromos()),
+  fetchLeaders: () => dispatch(fetchLeaders()),
+})
+
    const MenuNavigator = createStackNavigator({
      Menu: { screen: Menu,
             navigationOptions: ({ navigation }) => ({
@@ -210,24 +230,27 @@ class Main extends Component {
     };
   }
 
-  onDishSelect(dishId) {
-      this.setState({selectedDish: dishId})
+    componentDidMount() {
+    this.props.fetchDishes();
+    this.props.fetchComments();
+    this.props.fetchPromos();
+    this.props.fetchLeaders();
   }
+  
 
 
   render() {
  
     return (
-       
-        <View style={{flex:1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
+       <View style={{flex:1}}>
             <MainNavigator />
         </View>
     );
   }
 }
 //flex:1 means last Component will take all the available space  <View style={{flex:1}}>
-  
-export default Main;
+ //<View style={{flex:1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}> 
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 const styles = StyleSheet.create({
   container: {
