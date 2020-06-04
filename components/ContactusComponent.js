@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Card } from 'react-native-elements';
-
+import * as Animatable from 'react-native-animatable';
 
 
 class Contactus extends Component {
@@ -19,12 +19,13 @@ class Contactus extends Component {
                 :confusion@food.net</Text>);
         
         return(
-            
-                <Card
-                    title="OUR ADDRESS"
-                  >
-                {address}
+
+            <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>                
+                <Card title='Contact Information'>
+                         {address} 
                 </Card>
+            </Animatable.View>
+            
          
         );
     }
