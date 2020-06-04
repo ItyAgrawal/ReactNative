@@ -13,6 +13,8 @@ import Aboutus from './AboutusComponent.js';
 import { connect } from 'react-redux';
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 import Reservation from './ReservationComponent';
+import Favorites from './FavoriteComponent';
+
 //automatically gets prop navigation
 
 
@@ -119,25 +121,45 @@ const mapDispatchToProps = dispatch => ({
 
     });
 
-
-    const ReservationNavigator = createStackNavigator({
-    Reservation: { screen: Reservation }
-  }, {
+  const ReservationNavigator = createStackNavigator({
+    Reservation: { screen: Reservation,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: {
-          backgroundColor: "#512DA8"
-      },
-      headerTitleStyle: {
-          color: "#fff"            
-      },
-      headerTintColor: "#fff",
-      headerLeft: <Icon name="menu" size={24}
-        iconStyle={{ color: 'white' }} 
-        onPress={ () => navigation.navigate('DrawerToggle') } />    
-    })
-  });
+              headerLeft: <Icon name="menu" size={24} 
+              color= 'white'
+              onPress={ () => navigation.toggleDrawer() } />          
+            })   }
+      }, {
+        navigationOptions: ({ navigation }) => ({
+          headerStyle: {
+              backgroundColor: "#512DA8"
+          },
+          headerTitleStyle: {
+              color: "#fff"            
+          },
+          headerTintColor: "#fff"  
+        })
 
+    });
 
+   const FavoritesNavigator = createStackNavigator({
+    Favorites: { screen: Favorites,
+    navigationOptions: ({ navigation }) => ({
+              headerLeft: <Icon name="menu" size={24} 
+              color= 'white'
+              onPress={ () => navigation.toggleDrawer() } />          
+            })   }
+      }, {
+        navigationOptions: ({ navigation }) => ({
+          headerStyle: {
+              backgroundColor: "#512DA8"
+          },
+          headerTitleStyle: {
+              color: "#fff"            
+          },
+          headerTintColor: "#fff"  
+        })
+
+    });
 
   const CustomDrawerContentComponent = (props) => (
     <ScrollView>
@@ -194,6 +216,7 @@ const MainNavigator = createDrawerNavigator({
               type='font-awesome'            
               size={24}
               color={tintColor}
+
             />
           ),
         }, 
@@ -232,6 +255,24 @@ const MainNavigator = createDrawerNavigator({
         }, 
 
     },
+
+
+    Favorites:
+        { screen: FavoritesNavigator,
+          navigationOptions: {
+            title: 'My Favorites',
+            drawerLabel: 'My Favorites',
+            drawerIcon: ({ tintColor, focused }) => (
+              <Icon
+                name='heart'
+                type='font-awesome'            
+                size={24}
+                iconStyle={{ color: tintColor }}
+              />
+            ),
+          }
+        },
+
       Reservation:
       { screen: ReservationNavigator,
         navigationOptions: {
@@ -304,5 +345,6 @@ const styles = StyleSheet.create({
     margin: 10,
     width: 80,
     height: 60
+  
   }
 });
