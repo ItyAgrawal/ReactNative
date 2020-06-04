@@ -14,3 +14,5 @@ export const favorites = (state = [], action) => {
           return state;
       }
 };
+//new id is added
+//state is not change
