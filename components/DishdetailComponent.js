@@ -85,6 +85,7 @@ function RenderDish(props) {
     
         if (dish != null) {
             return(
+                <View style={{flex:1}}>
        <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
                 ref={handleViewRef}
                 {...panResponder.panHandlers}>
@@ -118,7 +119,7 @@ function RenderDish(props) {
                     
                     </View>
 
-                    <View style = {styles.modal}>
+                    <View>
 
                     <Modal animationType = {"slide"} transparent = {false}
                     visible = {props.showModal}
@@ -126,6 +127,7 @@ function RenderDish(props) {
                     onRequestClose = {() => props.toggleModal() }>
 
                     <View>
+                    
                      <Rating
                         showRating
                         type="star"
@@ -134,19 +136,23 @@ function RenderDish(props) {
                         onFinishRating={(rating)=>props.ratingCompleted(rating)}
                         style={{ paddingVertical: 10 }}
                     />
-                    <View style={{margin:10,flex:1,flexDirection:'row'}}>
-                    <Icon
-                    name={'user'}
-                    type='font-awesome' style={styles.Icon}/>
-                    <TextInput style={styles.textInput} onChangeText={(text) => props.onChangeAuthorText(text)}
-                        placeholder="author" value={props.author}/>
+                    
+                    
+                    <View style={{flexDirection:'row', height:40,margin:10}}>
+                        <Icon
+                        name={'user'}
+                        type='font-awesome' style={{padding:10}}/>
+                        <TextInput style={{flex:1}} onChangeText={(text) => props.onChangeAuthorText(text)}
+                            selectionColor={'#428AF8'} placeholder="author" value={props.author}
+                            underlineColorAndroid={'#428AF8'}/>
                     </View>
-                    <View style={{margin:10,flex:1,flexDirection:'row'}}>
+                    <View style={{flexDirection:'row',height:40,margin:10}}>
                      <Icon
                     name={'comment'}
-                    type='font-awesome' style={styles.Icon}/>
-                      <TextInput style={styles.textInput} onChangeText={(comment) => props.onChangeCommentText(comment)}
-                        placeholder="comment" value={props.comment}/>
+                    type='font-awesome' style={{padding:10}}/>
+                      <TextInput style={{flex:1}} onChangeText={(comment) => props.onChangeCommentText(comment)}
+                        placeholder="comment" value={props.comment} underlineColorAndroid={'#428AF8'}/>
+                    </View>
                     </View>
                     <View style={styles.formRow}>
                      <Button
@@ -154,7 +160,7 @@ function RenderDish(props) {
                             color="#512DA8"
                             title="Submit" 
                         />
-                    </View>
+                    
 
 
                         <View style={styles.formRow}>
@@ -176,6 +182,7 @@ function RenderDish(props) {
 
                 </Card>
                 </Animatable.View>
+                </View>
             );
         }
         else {
@@ -329,7 +336,8 @@ const styles = StyleSheet.create({
     },
     textInput:{
 
-        flex:1
+        
+        height:40
        
     },
     icon:{
