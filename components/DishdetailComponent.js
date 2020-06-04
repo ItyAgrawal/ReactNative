@@ -27,6 +27,7 @@ const mapStateToProps = state => {
 function RenderDish(props) {
 
     const dish = props.dish;
+    const handleViewRef = ref => this.view = ref;
 
 
 
@@ -42,6 +43,9 @@ function RenderDish(props) {
         onStartShouldSetPanResponder: (e, gestureState) => {
             return true;
         },
+        onPanResponderGrant: () => {this.view.rubberBand(1000).then(endState => console.log(endState.finished
+         ? 'finished' : 'cancelled'));},
+
         onPanResponderEnd: (e, gestureState) => {
             console.log("pan responder end", gestureState);
             if (recognizeDrag(gestureState))
@@ -64,8 +68,9 @@ function RenderDish(props) {
     
         if (dish != null) {
             return(
-        <Animatable.View animation="fadeInDown"
-         duration={2000} delay={1000}  {...panResponder.panHandlers}>
+       <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
+                ref={handleViewRef}
+                {...panResponder.panHandlers}>
                 <Card
                 featuredTitle={dish.name}
                 image={{uri:baseUrl+dish.image}}>
@@ -265,6 +270,9 @@ class Dishdetail extends Component {
     }
 
 
+  
+
+
 
     render() {
         const dishId = this.props.navigation.getParam('dishId','');
@@ -314,3 +322,14 @@ const styles = StyleSheet.create({
 
 });
 
+
+
+/*In this exercise we will continue with the use of PanResponder 
+to respond to gestures. In addition we will add in animation as a way of
+ giving visual feedback to the user. At the end of this exercise you will be able to:
+Use animations as a way of giving visual feedback to users in response to gestures.
+
+ref is a prop which is used to give refernce to the node. by getting refrence we are adding
+animation to that view in case 
+
+*/
