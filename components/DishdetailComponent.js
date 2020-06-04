@@ -25,10 +25,11 @@ const mapStateToProps = state => {
 
 
 function RenderDish(props) {
+    const reference={};
 
     const dish = props.dish;
-    const handleViewRef = ref => this.view = ref;
-
+    const handleViewRef = ref => reference.view = ref;
+//this inside function is marked to gloabl object but inside nested function it is undefined
 
 
     const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
@@ -43,7 +44,7 @@ function RenderDish(props) {
         onStartShouldSetPanResponder: (e, gestureState) => {
             return true;
         },
-        onPanResponderGrant: () => {this.view.rubberBand(1000).then(endState => console.log(endState.finished
+        onPanResponderGrant: () => {reference.view.rubberBand(1000).then(endState => console.log(endState.finished
          ? 'finished' : 'cancelled'));},
 
         onPanResponderEnd: (e, gestureState) => {
@@ -329,7 +330,13 @@ to respond to gestures. In addition we will add in animation as a way of
  giving visual feedback to the user. At the end of this exercise you will be able to:
 Use animations as a way of giving visual feedback to users in response to gestures.
 
-ref is a prop which is used to give refernce to the node. by getting refrence we are adding
-animation to that view in case 
+=>ref is a prop which is used to give refernce to the node. mention the callback function int it.
+=> this in function refers to the global object.
+=>inside class it is atached to class itself.
+=>so crete new property to this object lets say view and add animation to that.
+=>now if any gesture is made then pan handler grant access to  onPanResponderGrant. it works when we are making guestures
+on screen and the rubber animation, whether wiping left or right. if guesture is made then after 1 sec report true 
+or false value.
+These are different stages in guestures.
 
 */
