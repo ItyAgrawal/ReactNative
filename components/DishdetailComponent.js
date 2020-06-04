@@ -32,12 +32,24 @@ function RenderDish(props) {
 //this inside function is marked to gloabl object but inside nested function it is undefined
 
 
-    const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
+    const recognizeDragRightToLeft = ({ moveX, moveY, dx, dy }) => {
         if ( dx < -200 )
             return true;
         else
             return false;
     }
+
+
+    const recognizeDragLeftToRight = ({ moveX, moveY, dx, dy }) => {
+        if ( dx > 200 )
+            return true;
+        else
+            return false;
+    }
+
+    
+
+
     //if right to left swipe of 200 px then ecaluate true 
 
     const panResponder = PanResponder.create({
@@ -49,7 +61,7 @@ function RenderDish(props) {
 
         onPanResponderEnd: (e, gestureState) => {
             console.log("pan responder end", gestureState);
-            if (recognizeDrag(gestureState))
+            if (recognizeDragRightToLeft(gestureState))
                 Alert.alert(
                     'Add Favorite',
                     'Are you sure you wish to add ' + dish.name + ' to favorite?',
@@ -59,6 +71,10 @@ function RenderDish(props) {
                     ],
                     { cancelable: false }
                 );
+            if(recognizeDragLeftToRight(gestureState))
+            {
+                props.toggleModal();
+            }
 
             return true;
         }
