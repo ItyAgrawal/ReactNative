@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, FlatList, StyleSheet, Modal, Button,TextInput, Alert, PanResponder } from 'react-native';
-import { Card, Icon , Rating} from 'react-native-elements';
+import { Text, View, ScrollView, FlatList, StyleSheet, Modal, Button,TextInput,Alert, PanResponder } from 'react-native';
+import { Card, Icon , Rating , Input} from 'react-native-elements';
 import { DISHES } from '../shared/dishes';
 import { COMMENTS } from '../shared/comments';
 import { connect } from 'react-redux';
@@ -136,30 +136,34 @@ function RenderDish(props) {
                         onFinishRating={(rating)=>props.ratingCompleted(rating)}
                         style={{ paddingVertical: 10 }}
                     />
-                    
-                    
-                    <View style={{flexDirection:'row', height:40,margin:10}}>
+
+                    <Input
+                    placeholder=' Author'
+                    leftIcon = {
                         <Icon
-                        name={'user'}
-                        type='font-awesome' style={{padding:10}}/>
-                        <TextInput style={{flex:1}} onChangeText={(text) => props.onChangeAuthorText(text)}
-                            selectionColor={'#428AF8'} placeholder="author" value={props.author}
-                            underlineColorAndroid={'#428AF8'}/>
-                    </View>
-                    <View style={{flexDirection:'row',height:40,margin:10}}>
-                     <Icon
-                    name={'comment'}
-                    type='font-awesome' style={{padding:10}}/>
-                      <TextInput style={{flex:1}} onChangeText={(comment) => props.onChangeCommentText(comment)}
-                        placeholder="comment" value={props.comment} underlineColorAndroid={'#428AF8'}/>
-                    </View>
-                    </View>
+                            name='user-o'
+                            type='font-awesome'
+                            />
+                    }
+                  onChangeText={(text) => props.onChangeAuthorText(text)}
+                    />
+                    <Input
+                    placeholder='Comment'
+                    leftIcon = {
+                        <Icon
+                            name='comment-o'
+                            type='font-awesome'
+                            />
+                    }
+                  onChangeText={(comment) => props.onChangeCommentText(comment)}
+                    />
                     <View style={styles.formRow}>
                      <Button
                             onPress = {() =>{props.toggleModal();props.addComment();props.resetForm();}}
                             color="#512DA8"
                             title="Submit" 
                         />
+                    </View>
                     
 
 
