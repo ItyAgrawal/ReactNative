@@ -163,7 +163,22 @@ class RegisterTab extends Component {
     //now captured image is processed and then passed.
     //processed image is then saved.
     //captureImage cancelled shows whether image is selected or cancelled
-    
+     getImageFromGallery = async () => {
+        const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
+        const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+        if (cameraPermission.status === 'granted' && cameraRollPermission.status === 'granted') {
+            let selectedImage = await ImagePicker.launchImageLibraryAsync({
+                allowsEditing: true,
+                aspect: [4, 3],
+            });
+            if (!selectedImage.cancelled) {
+                console.log(selectedImage);
+                this.processImage(selectedImage.uri);
+            }
+        }
+
+    }
         processImage = async (imageUri) => {
         let processedImage = await ImageManipulator.manipulateAsync(
             imageUri, 
@@ -201,15 +216,28 @@ class RegisterTab extends Component {
             <ScrollView>
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
+                    <View style={{flex:1}}>
                     <Image 
                         source={{uri: this.state.imageUrl}} 
                         loadingIndicatorSource={require('./images/logo.png')}
                         style={styles.image} 
                         />
-                    <Button
+                    </View>
+                    <View style={{flex:1 , margin:10}}>
+                      <Button
                         title="Camera"
                         onPress={this.getImageFromCamera}
                         />
+                     </View>
+                    <View style={{flex:1 , margin:10}}>
+                   
+                     <Button
+                    title="Gallery"
+                    onPress={this.getImageFromGallery}
+                    />
+                    </View>
+
+
                 </View>
                 <Input
                     placeholder="Username"

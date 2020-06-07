@@ -5,6 +5,7 @@ import DatePicker from 'react-native-datepicker';
 import * as Animatable from 'react-native-animatable';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
+import * as Calendar from 'expo-calendar';
 
 class Reservation extends Component {
 
@@ -48,10 +49,44 @@ class Reservation extends Component {
         });
     }
 
+    async obtainCalendarPermission() {
+    let permission = await Permissions.getAsync(Permissions.CALENDAR);
+    if (permission.status !== 'granted') {
+        permission = await Permissions.askAsync(Permissions.CALENDAR);
+        if (permission.status !== 'granted') {
+            Alert.alert('Permission not granted to use calendar');
+        }
+    }
+    return permission;
+  }
 
+  async getDefaultCalendarId() {
+    const calendars = await Calendar.getCalendarsAsync();
+    const defaultCalendars = calendars.filter(each => each.source.name === 'agrawal.ity.4aug@gmail.com');
+    return defaultCalendars[0].id;
+  }
 
+  async addReservationToCalendar(date) {
+    await this.obtainCalendarPermission();
 
+    console.log("Date: " + date);
 
+    const calendars = await Calendar.getCalendarsAsync();
+        console.log('Here are all your calendars:');
+        console.log({ calendars });
+
+    const defaultCalendarId = await this.getDefaultCalendarId();
+
+    console.log("Calendar Id: " + defaultCalendarId);
+
+    Calendar.createEventAsync(defaultCalendarId, {
+      title: 'Con Fusion Table Reservation',
+      startDate: new Date(Date.parse(date)),
+      endDate: new Date(Date.parse(date) + (2*60*60*1000)),
+      timeZone: 'Asia/Hong_Kong',
+      location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
+    });
+  }
 
     static navigationOptions = {
         title: 'Reserve Table',
@@ -59,6 +94,7 @@ class Reservation extends Component {
 
     handleFormSubmission(){
         console.log(JSON.stringify(this.state));
+          this.addReservationToCalendar(this.state.date);
 
         this.presentLocalNotification(this.state.date);
         this.resetForm();
